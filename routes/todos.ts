@@ -14,6 +14,19 @@ route.post("/post", (req, res, next) => {
     text: req.body.text,
   };
   todos.push(newTodo);
+  return res.status(201).json({ message: "Posted successfully" });
+});
+
+route.put("/post/:postId", (req, res, next) => {
+  const toID = req.params.postId;
+  const findIndex = todos.findIndex((todo) => todo.id === toID);
+  if (findIndex >= 0) {
+    todos[findIndex] = { id: todos[findIndex].id, text: req.body.text };
+    return res
+      .status(201)
+      .json({ message: "Successfully putted", todos: todos });
+  }
+  res.status(404).json({ message: "Todo is not found" });
 });
 
 export default route;
