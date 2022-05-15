@@ -2,7 +2,7 @@ import { Router } from "express";
 import { Todo } from "../models/todo";
 
 const route = Router();
-const todos: Todo[] = [];
+let todos: Todo[] = [];
 
 route.get("/", (req, res, next) => {
   res.status(200).json({ todos: todos });
@@ -27,6 +27,12 @@ route.put("/post/:postId", (req, res, next) => {
       .json({ message: "Successfully putted", todos: todos });
   }
   res.status(404).json({ message: "Todo is not found" });
+});
+
+route.delete("/post/:postId", (req, res, next) => {
+  const toID = req.params.postId;
+  todos.filter((todo) => todo.id !== toID);
+  res.status(404).json({ message: "Todo is not found", todos: todos });
 });
 
 export default route;
