@@ -14,10 +14,10 @@ route.post("/post", (req, res, next) => {
     text: req.body.text,
   };
   todos.push(newTodo);
-  return res.status(201).json({ message: "Posted successfully" });
+  return res.status(201).json({ message: "Posted successfully", todos: todos });
 });
 
-route.put("/post/:postId", (req, res, next) => {
+route.put("/todo/:postId", (req, res, next) => {
   const toID = req.params.postId;
   const findIndex = todos.findIndex((todo) => todo.id === toID);
   if (findIndex >= 0) {
@@ -29,10 +29,10 @@ route.put("/post/:postId", (req, res, next) => {
   res.status(404).json({ message: "Todo is not found" });
 });
 
-route.delete("/post/:postId", (req, res, next) => {
+route.delete("/todo/:postId", (req, res, next) => {
   const toID = req.params.postId;
-  todos.filter((todo) => todo.id !== toID);
-  res.status(404).json({ message: "Todo is not found", todos: todos });
+  todos = todos.filter((todo) => todo.id !== toID);
+  res.status(201).json({ message: "Todo is deleted", todos: todos });
 });
 
 export default route;
